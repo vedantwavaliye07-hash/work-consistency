@@ -15,9 +15,10 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2315803d'/%3E%3Cpath d='M11 21l6 6 12-14' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f6fa;--sf:#fff;--ln:#dde2ec;--tx:#141a26;--mu:#667086;--ac:#15803d;--on:#fff;--ok:#1f9d6b;--wm:#d98a00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1117;--sf:#171c26;--ln:#262d3b;--tx:#e8ebf1;--mu:#8b94a7;--ac:#3ddc97;--on:#052e1c;--ok:#3ddc97;--wm:#ffb84d}}
-:root[data-theme="dark"]{--bg:#0e1117;--sf:#171c26;--ln:#262d3b;--tx:#e8ebf1;--mu:#8b94a7;--ac:#3ddc97;--on:#052e1c;--ok:#3ddc97;--wm:#ffb84d}
+:root{--bg:#081225;--sf:#111e35;--ln:#263958;--tx:#edf4ff;--mu:#9aaac4;--ac:#36d6a0;--on:#06291e;--ok:#36d6a0;--wm:#ffbd59;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]):not([data-theme="light"]){--bg:#f3f7fb;--sf:#fff;--ln:#dce6f1;--tx:#142238;--mu:#64748b;--ac:#159b70;--on:#fff;--ok:#159b70;--wm:#c98212}}
+:root[data-theme="dark"]{--bg:#081225;--sf:#111e35;--ln:#263958;--tx:#edf4ff;--mu:#9aaac4;--ac:#36d6a0;--on:#06291e;--ok:#36d6a0;--wm:#ffbd59}
+:root[data-theme="light"]{--bg:#f3f7fb;--sf:#fff;--ln:#dce6f1;--tx:#142238;--mu:#64748b;--ac:#159b70;--on:#fff;--ok:#159b70;--wm:#c98212}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:'Sora',system-ui,sans-serif;line-height:1.5}
@@ -26,7 +27,7 @@ h1{font-size:1.4rem;margin:0 0 4px}
 h2{font-size:1rem;margin:0 0 12px}
 p{margin:0}
 .mu{color:var(--mu);font-size:.85rem}
-.card{background:color-mix(in srgb,var(--sf) 78%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--ln);border-radius:14px;padding:16px;margin-top:14px}
+.card{background:color-mix(in srgb,var(--sf) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--ln);border-radius:18px;padding:18px;margin-top:16px;box-shadow:0 12px 32px rgba(2,8,23,.12)}
 select,input{width:100%;padding:11px 12px;margin:6px 0 12px;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:10px;font:inherit}
 button{font:inherit;cursor:pointer}
 button:disabled{opacity:.4;cursor:default}
@@ -74,11 +75,11 @@ button:disabled{opacity:.4;cursor:default}
 .mb{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:20px;max-width:360px;width:100%;animation:rise .25s ease-out}
 .mb p{margin-bottom:16px;font-weight:600}
 .bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bg i{position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.38;animation:drift 24s ease-in-out infinite alternate}
-.bg i:nth-child(1){background:#16a34a;top:-22vmax;left:-22vmax;--x:12vmax;--y:10vmax}
-.bg i:nth-child(2){background:linear-gradient(135deg,#ff2bd6,#8b5cf6);top:-22vmax;right:-22vmax;--x:-12vmax;--y:10vmax;animation-duration:28s}
-.bg i:nth-child(3){background:linear-gradient(135deg,#ff2bd6,#8b5cf6);bottom:-22vmax;left:-22vmax;--x:12vmax;--y:-10vmax;animation-duration:26s}
-.bg i:nth-child(4){background:#16a34a;bottom:-22vmax;right:-22vmax;--x:-12vmax;--y:-10vmax;animation-duration:30s}
+.bg i{position:absolute;width:48vmax;height:48vmax;border-radius:50%;filter:blur(110px);opacity:.13;animation:drift 30s ease-in-out infinite alternate}
+.bg i:nth-child(1){background:#18c98b;top:-25vmax;left:-25vmax;--x:8vmax;--y:8vmax}
+.bg i:nth-child(2){background:#2563eb;top:-25vmax;right:-25vmax;--x:-8vmax;--y:8vmax;animation-duration:34s}
+.bg i:nth-child(3){background:#0f766e;bottom:-25vmax;left:-25vmax;--x:8vmax;--y:-8vmax;animation-duration:32s}
+.bg i:nth-child(4){background:#1d4ed8;bottom:-25vmax;right:-25vmax;--x:-8vmax;--y:-8vmax;animation-duration:36s}
 
 .task,.btn,.sm,.tabs button{transition:transform .15s ease,background .2s ease,border-color .2s ease}
 .task:active,.btn:active,.sm:active,.tabs button:active{transform:scale(.95)}
