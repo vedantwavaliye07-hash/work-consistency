@@ -21,7 +21,7 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:'Sora',system-ui,sans-serif;line-height:1.5}
-main{max-width:560px;margin:0 auto;padding:20px 16px 40px}
+main{max-width:560px;margin:0 auto;padding:20px 16px calc(110px + env(safe-area-inset-bottom,0px))}
 h1{font-size:1.4rem;margin:0 0 4px}
 h2{font-size:1rem;margin:0 0 12px}
 p{margin:0}
@@ -88,11 +88,35 @@ button:disabled{opacity:.4;cursor:default}
 @keyframes fade{from{opacity:0}}
 @keyframes rise{from{transform:translateY(16px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.bg i,.bar i,.col i,.ch .b,.md,.mb{animation:none}.task,.btn,.sm,.tabs button{transition:none}}
+
+.hero{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 20px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#0f6b3a,#1f9d6b 60%,#2bb673);box-shadow:0 12px 32px rgba(31,157,107,.28)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero::before{width:190px;height:190px;right:-50px;top:-70px}
+.hero::after{width:120px;height:120px;right:50px;bottom:-70px;background:rgba(255,255,255,.1)}
+.hero>*{position:relative;z-index:1}
+.hs{margin:0;opacity:.88;font-size:.9rem}
+.hn{margin:2px 0 4px;font-size:1.5rem;line-height:1.2;overflow-wrap:anywhere}
+.av{flex:none;width:68px;height:68px;border-radius:50%;border:2.5px solid rgba(255,255,255,.75);background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:1.7rem;font-weight:700}
+.hero.big{padding:28px 20px;margin-top:14px}
+.hero.big .av{width:84px;height:84px;font-size:2.1rem}
+.tb{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:536px;margin:0 auto;display:flex;padding:6px;border-radius:24px;background:color-mix(in srgb,var(--sf) 72%,transparent);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid var(--ln);box-shadow:0 8px 30px rgba(0,0,0,.3);z-index:20}
+.tb[hidden]{display:none}
+.tb .ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/5);border-radius:18px;background:color-mix(in srgb,var(--ac) 22%,transparent);transition:transform .45s cubic-bezier(.32,.72,0,1)}
+.tb button{flex:1;position:relative;background:none;border:0;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;transition:color .25s}
+.tb button.on{color:var(--ac)}
+.tb svg{transition:transform .25s cubic-bezier(.32,.72,0,1)}
+.tb button:active svg{transform:scale(.85)}
+.tb small{font-size:.68rem;font-weight:600}
+.vin{animation:vin .4s cubic-bezier(.32,.72,0,1)}
+@keyframes vin{from{opacity:0;transform:translateY(12px)}}
+.card,.stat{border-radius:18px}
+@media (prefers-reduced-motion:reduce){.vin{animation:none}.tb .ind,.tb button,.tb svg{transition:none}}
 </style>
 </head>
 <body>
 <div class="bg"><i></i><i></i><i></i><i></i></div>
 <main id="app"></main>
+<nav id="tb" class="tb" aria-label="Main navigation" hidden><span class="ind"></span><button data-v="today"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><small>Today</small></button><button data-v="week"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><small>Week</small></button><button data-v="month"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><small>Month</small></button><button data-v="all"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><small>All</small></button><button data-v="profile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><small>Profile</small></button></nav>
 <script>
 (function(){
 var KEY='consistency-v2',GR=5,tab='today',wo=0,mo=0,S=null,app=document.getElementById('app'),DN=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -203,16 +227,26 @@ if(!FT.run&&FT.left===FT.dl&&FT.dl!==dur())FT.left=FT.dl=dur();var h='<div class
 if(!S.slots.length)h+='<p class="mu">No slots yet. Add one above.</p>';
 S.slots.slice().sort((a,b)=>a.tm<b.tm?-1:1).forEach(s=>{var k=s.rep?k0:s.d,v=(s.st||{})[k],late=!v&&now>st0(s,k)+GR*60000,lab=v==='joined'?'Joined':(v==='missed'||late)?'Missed':'Upcoming';
 h+='<div class="slot"><div><b>'+esc(s.t)+'</b><div class="mu">'+s.tm+', '+(s.rep?'daily':s.d)+'</div>'+(s.n?'<div class="mu">'+esc(s.n)+'</div>':'')+'</div><div class="row"><span class="tg '+lab.toLowerCase()+'">'+lab+'</span>'+(!v&&!late&&now>=st0(s,k)-600000?'<button class="sm" data-a="j" data-v="'+s.id+'">Join</button>':'')+'<button class="sm" data-a="ed" data-v="'+s.id+'">Edit</button><button class="sm" data-a="x" data-v="'+s.id+'">Delete</button></div></div>'});
-return h+'</div><div class="card"><button class="sm" data-a="rs">Delete my account</button></div>'}
+return h+'</div>'}
+var chg=0,TT=['today','week','month','all','profile'],TL={today:'Today',week:'Week',month:'Month',all:'All time',profile:'Profile'};
+function greet(){var h=new Date().getHours();return h<12?'Good morning,':h<17?'Good afternoon,':'Good evening,'}
+function hero(){var n=S.p.name;return '<div class="hero"><div><p class="hs">'+greet()+'</p><h1 class="hn">'+esc(n)+'</h1><p class="hs">'+esc(S.p.role||'')+'</p></div><div class="av">'+esc(n.charAt(0).toUpperCase())+'</div></div>'}
+function profileView(){var r=allStats(),th=gt(),n=S.p.name;
+var h='<div class="hero big"><div><p class="hs">Your profile</p><h1 class="hn">'+esc(n)+'</h1><p class="hs">@'+esc(S.p.user||'')+(S.p.role?', '+esc(S.p.role):'')+'</p></div><div class="av">'+esc(n.charAt(0).toUpperCase())+'</div></div>';
+h+='<div class="stats" style="grid-template-columns:repeat(2,1fr)"><div class="stat"><b>'+r.j+'</b><span class="mu">slots joined</span></div><div class="stat"><b style="color:var(--wm)">'+r.best+'</b><span class="mu">best streak (days)</span></div><div class="stat"><b>'+r.perfect+'</b><span class="mu">perfect days</span></div><div class="stat"><b>'+focusTotal()+'</b><span class="mu">focus sessions</span></div></div>';
+h+='<div class="card"><h2>Appearance</h2><div class="row">'+[['system','System'],['light','Light'],['dark','Dark']].map(x=>'<button class="sm" data-a="th" data-v="'+x[0]+'" style="flex:1;'+(th===x[0]?'border-color:var(--ac);color:var(--ac)':'')+'">'+x[1]+'</button>').join('')+'</div></div>';
+h+=badges(r);
+return h+'<div class="card"><h2>Account</h2><div class="row"><button class="sm" data-a="lo" style="flex:1">Log out</button><button class="sm" data-a="rs" style="flex:1;color:#e5484d;border-color:#e5484d">Delete my account</button></div></div>'}
+function updateTabs(){var nb=document.getElementById('tb');if(!nb)return;nb.hidden=!S;nb.querySelector('.ind').style.transform='translateX('+(TT.indexOf(tab)*100)+'%)';nb.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===tab))}
+document.getElementById('tb').onclick=function(e){var b=e.target.closest('button[data-v]');if(!b||b.dataset.v===tab)return;tab=b.dataset.v;chg=1;render();window.scrollTo(0,0)};
 function render(){
-if(!S){setup();return}
-var t=t0(),ws=weekStart(0),we=new Date(ws);we.setDate(ws.getDate()+6);
-var td=dayStat(t),w=range(ws,we),m=range(new Date(t.getFullYear(),t.getMonth(),1),new Date(t.getFullYear(),t.getMonth()+1,0));
-var h='<div class="row" style="justify-content:space-between;align-items:flex-start">'+LOGO+'<button class="sm" data-a="menu" aria-label="Settings" style="font-size:1.1rem;padding:4px 12px">⋮</button></div><h1>Hi '+esc(S.p.name.split(' ')[0])+'</h1><p class="mu">'+new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})+'</p>'+(S.p.role?'<p class="mu" style="margin-top:2px">'+esc(S.p.role)+'</p>':'')+'<p class="mu" style="margin-top:8px">“'+quote()+'”</p>';
-h+='<div class="stats"><div class="stat"><b>'+pc(td)+'%</b><span class="mu">today</span></div><div class="stat"><b>'+pc(w)+'%</b><span class="mu">this week</span></div><div class="stat"><b>'+pc(m)+'%</b><span class="mu">this month</span></div><div class="stat"><b style="color:var(--wm)">'+streak()+'</b><span class="mu">day streak</span></div></div>';
-h+='<div class="tabs">'+[['today','Today'],['week','Week'],['month','Month'],['all','All']].map(x=>'<button data-a="tab" data-v="'+x[0]+'" class="'+(tab===x[0]?'on':'')+'">'+x[1]+'</button>').join('')+'</div>';
-h+=tab==='week'?weekView():tab==='month'?monthView():tab==='all'?allView():planView();
-app.innerHTML=h}
+if(!S){updateTabs();setup();return}
+var t=t0(),ws=weekStart(0),we=new Date(ws);we.setDate(ws.getDate()+6);var h='';
+if(tab==='today'){var td=dayStat(t),w=range(ws,we),m=range(new Date(t.getFullYear(),t.getMonth(),1),new Date(t.getFullYear(),t.getMonth()+1,0));
+h=LOGO+hero()+'<p class="mu" style="margin:14px 2px 0">\u201c'+quote()+'\u201d</p>';
+h+='<div class="stats"><div class="stat"><b>'+pc(td)+'%</b><span class="mu">today</span></div><div class="stat"><b>'+pc(w)+'%</b><span class="mu">this week</span></div><div class="stat"><b>'+pc(m)+'%</b><span class="mu">this month</span></div><div class="stat"><b style="color:var(--wm)">'+streak()+'</b><span class="mu">day streak</span></div></div>'+planView()}
+else h='<h1 style="margin:6px 2px 0">'+TL[tab]+'</h1>'+(tab==='week'?weekView():tab==='month'?monthView():tab==='all'?allView():profileView());
+app.innerHTML='<div class="'+(chg?'vin':'')+'">'+h+'</div>';chg=0;updateTabs()}
 function addTask(){var i=document.getElementById('nt2'),v=i&&i.value.trim();if(!v)return;S.tasks.push({id:'t'+Date.now(),t:v,d:tk(),done:false});save()}
 function addSlot(){var t=document.getElementById('st').value.trim(),d=document.getElementById('sd').value,m=document.getElementById('sm').value;
 if(!t||!d||!m){modal('Enter a title, date and time.',[{l:'OK',p:1}]);return false}
@@ -260,7 +294,7 @@ modal('Forgot PIN? There is no email to verify you, so the only way is to delete
 app.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.target.id==='pw'||e.target.id==='pw2'))go2()});
 app.addEventListener('change',e=>{if(e.target.id==='hv'){hv=e.target.checked;setup()}});
 app.onclick=function(e){var b=e.target.closest('[data-a]');if(!b||b.disabled)return;var a=b.dataset.a,v=b.dataset.v;
-if(a==='menu'){menu();return}else if(a==='tab')tab=v;
+if(a==='menu'){menu();return}else if(a==='tab')tab=v;else if(a==='th'){setTheme(v)}else if(a==='lo'){modal('Log out? Your data stays saved. Log in again with your username and PIN.',[{l:'Log out',p:1,f:()=>{ACC.cur=null;save();S=null;hv=true;tab='today';render()}},{l:'Cancel'}]);return}
 else if(a==='go'){go2();return}else if(a==='fg'){fg();return}else if(a==='ed'){editSlot(v);return}else if(a==='fs'){if(FT.run){FT.left=Math.max(0,Math.round((FT.end-Date.now())/1000));FT.run=false}else{FT.end=Date.now()+FT.left*1000;FT.run=true}}else if(a==='fr'){FT.run=false;FT.left=FT.dl=dur()}else if(a==='fq'){S.fm=+v;FT.run=false;FT.left=FT.dl=dur();save()}else if(a==='fset'){var n=Math.round(+document.getElementById('fm').value);if(!(n>=1&&n<=180)){ok0('Enter minutes between 1 and 180.');return}S.fm=n;FT.run=false;FT.left=FT.dl=dur();save()}
 else if(a==='at')addTask();
 else if(a==='tk'){S.tasks.forEach(x=>{if(x.id===v)x.done=!x.done});save()}
